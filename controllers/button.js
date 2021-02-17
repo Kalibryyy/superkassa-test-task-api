@@ -54,13 +54,3 @@ module.exports.switchOffBtn = (req, res) => {
     })
     .catch((err) => errorHandler(res, err));
 };
-
-module.exports.createButtonState = (req, res) => {
-    const { state } = req.body;
-
-    Button.create({ state })
-      .then((button) => {
-        res.send(button);
-      })
-      .catch((err) => res.status(404).send({ message: 'Запрашиваемый ресурс не найден' }));
-  };
