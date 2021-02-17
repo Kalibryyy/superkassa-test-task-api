@@ -3,8 +3,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const routers = require('./routes/index.js');
 const cors = require('cors');
+const { PORT, DB_URL } = require('./configs');
 
-mongoose.connect('mongodb://localhost:27017/superkassa', {
+mongoose.connect(DB_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -12,7 +13,6 @@ mongoose.connect('mongodb://localhost:27017/superkassa', {
 });
 
 const app = express();
-const { PORT = 3001 } = process.env;
 
 app.use(cors());
 
