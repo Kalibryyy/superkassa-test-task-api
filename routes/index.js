@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const {
-  getButton, switchOnBtn, switchOffBtn,
+  getButton, switchOnBtn, switchOffBtn, createButtonState,
   } = require('../controllers/button');
 
 router.get('/', getButton);
+router.post('/', createButtonState)
 router.patch('/switch-on', switchOnBtn);
 router.patch('/switch-off', switchOffBtn);
 

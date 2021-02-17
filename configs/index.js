@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+console.log(process.env.NODE_ENV);
 const {
   PORT, NODE_ENV, DB_URL,
 } = process.env;
@@ -11,3 +11,4 @@ module.exports = {
   PORT: port,
   DB_URL: dbUrl,
 };
+
