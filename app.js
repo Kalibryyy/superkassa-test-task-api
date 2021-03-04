@@ -1,25 +1,32 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const app = require('express')();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http,{cors:{origin:"*"}});
 const bodyParser = require('body-parser');
-const routers = require('./routes/index.js');
-const cors = require('cors');
-const { PORT, DB_URL } = require('./configs');
 
-mongoose.connect(DB_URL, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true
-});
-
-const app = express();
-
-app.use(cors());
+const {
+  PORT,
+} = require('./configs');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
-app.use('/', routers);
+const button = {
+  state: false,
+}
 
-app.listen(PORT, () => console.log(`App listening on port ${PORT}`));
+io.on('connection', (socket) => {
+  console.log('user connected')
 
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+
+  socket.on('button_state', (state) => {
+    button.state = state;
+    io.emit('button_state', button.state);
+  });
+});
+
+http.listen(PORT, () => console.log(`App listening on port ${PORT}`));
